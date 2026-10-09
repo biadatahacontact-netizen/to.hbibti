@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffd9e4">
+<title>For You 💌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #e11d62;
+    --rose-dark: #a80f47;
+    --rose-soft: #ff8fb1;
+    --blush: #ffe4ec;
+    --cream: #fff8f4;
+    --ink: #4a1630;
+    --ink-soft: #8a5670;
+    --card: rgba(255, 255, 255, 0.82);
+    --shadow: 0 20px 50px -18px rgba(168, 15, 71, 0.45);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body { height: 100%; margin: 0; }
+
+  body {
+    font-family: "Nunito", system-ui, sans-serif;
+    color: var(--ink);
+    background: linear-gradient(160deg, #ffd9e4 0%, #ffeede 45%, #fbd3e9 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+
+  /* ---------- floating hearts background ---------- */
+  .sky { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .sky span {
+    position: absolute;
+    bottom: -60px;
+    opacity: 0;
+    animation: floatUp linear infinite;
+    will-change: transform;
+  }
+  @keyframes floatUp {
+    0%   { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.55; }
+    90%  { opacity: 0.55; }
+    100% { transform: translate3d(var(--drift), -115vh, 0) rotate(var(--spin)); opacity: 0; }
+  }
+
+  /* ---------- layout ---------- */
+  main {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: max(20px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));
+  }
+
+  .card {
+    width: 100%;
+    max-width: 460px;
+    background: var(--card);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    padding: 32px 24px 28px;
+    text-align: center;
+  }
+  .card.in { animation: pop 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+  @keyframes pop {
+    from { opacity: 0; transform: translateY(18px) scale(0.96); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  h1, h2 {
+    font-family: "Playfair Display", Georgia, serif;
+    margin: 0 0 10px;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  h1 { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+  h2 { font-size: clamp(1.4rem, 5.6vw, 1.8rem); }
+  p { margin: 0 0 14px; line-height: 1.55; color: var(--ink-soft); font-size: 1.02rem; }
+
+  .emoji { font-size: 3rem; line-height: 1; margin-bottom: 12px; display: block; }
+  .bounce { animation: bounce 1.6s ease-in-out infinite; }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+  /* ---------- buttons ---------- */
+  button { font: inherit; cursor: pointer; border: 0; touch-action: manipulation; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #fff;
+    background: linear-gradient(135deg, var(--rose-soft), var(--rose));
+    box-shadow: 0 10px 22px -10px rgba(225, 29, 98, 0.8);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: scale(0.96); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn.ghost {
+    background: #fff;
+    color: var(--rose-dark);
+    box-shadow: inset 0 0 0 2px #ffc2d4;
+  }
+  :focus-visible { outline: 3px solid var(--rose-dark); outline-offset: 3px; }
+
+  /* ---------- intro envelope ---------- */
+  .envelope {
+    position: relative;
+    width: 200px;
+    height: 136px;
+    margin: 8px auto 26px;
+    background: linear-gradient(180deg, #fff, #ffeef3);
+    border-radius: 12px;
+    box-shadow: 0 16px 30px -14px rgba(168, 15, 71, 0.55);
+    display: block;
+    padding: 0;
+    animation: wiggle 2.6s ease-in-out infinite;
+  }
+  .envelope::before, .envelope::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+  }
+  .envelope::before {
+    background: #ffd3df;
+    clip-path: polygon(0 100%, 50% 45%, 100% 100%);
+  }
+  .envelope::after {
+    background: #ffb7cb;
+    clip-path: polygon(0 0, 100% 0, 50% 58%);
+    transform-origin: top;
+    transition: transform 0.5s ease;
+  }
+  .envelope .seal {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    transform: translate(-50%, -50%);
+    font-size: 2.4rem;
+    z-index: 2;
+    transition: transform 0.5s ease;
+  }
+  .envelope.open { animation: none; }
+  .envelope.open::after { transform: rotateX(180deg); }
+  .envelope.open .seal { transform: translate(-50%, -160%) scale(1.5); }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg) translateY(-4px); }
+  }
+
+  /* ---------- mini games ---------- */
+  .progress { display: flex; justify-content: center; gap: 6px; margin-bottom: 18px; font-size: 1.05rem; }
+  .progress span { color: #f6bccd; transition: color 0.3s, transform 0.3s; }
+  .progress span.done { color: var(--rose); transform: scale(1.15); }
+
+  .game-label { min-height: 1.6em; margin: 12px 0 4px; font-weight: 700; color: var(--rose-dark); }
+
+  .reply {
+    margin: 18px 0 16px;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: var(--blush);
+    color: var(--rose-dark);
+    font-weight: 700;
+    animation: pop 0.4s both;
+  }
+
+  /* playful questions */
+  .pair { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: 20px; }
+  .pair .btn { flex: 1 1 130px; }
+  .pair.tall { min-height: 110px; }
+  .pair.tall .btn { flex: 0 0 auto; }
+  .pair.shake { animation: shake 0.4s; }
+  .btn.picked:disabled { opacity: 1; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+  }
+  .count {
+    font-family: "Playfair Display", serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--rose);
+    margin-top: 8px;
+  }
+
+  .options { display: grid; gap: 10px; margin-top: 18px; }
+  .option {
+    width: 100%;
+    min-height: 54px;
+    padding: 12px 18px;
+    border-radius: 18px;
+    background: #fff;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: inset 0 0 0 2px #ffd3df;
+    transition: transform 0.15s, box-shadow 0.2s, background 0.2s, opacity 0.2s;
+  }
+  .option:hover:not(:disabled) { transform: translateY(-2px); box-shadow: inset 0 0 0 2px var(--rose-soft); }
+  .option:disabled { cursor: default; opacity: 0.55; }
+  .option.picked {
+    opacity: 1;
+    color: #fff;
+    background: linear-gradient(135deg, var(--rose-soft), var(--rose));
+    box-shadow: none;
+  }
+
+  /* catch the kisses */
+  .arena {
+    position: relative;
+    height: 260px;
+    margin-top: 6px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #fff5f8, #ffe4ec);
+    box-shadow: inset 0 0 0 2px #ffd3df;
+  }
+  .arena.done { display: grid; place-items: center; font-size: 4rem; }
+  .kiss {
+    position: absolute;
+    bottom: -60px;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    background: none;
+    font-size: 2.2rem;
+    line-height: 1;
+    animation: rise var(--dur, 4s) linear forwards;
+  }
+  @keyframes rise { to { transform: translateY(-340px) rotate(12deg); } }
+
+  /* fly to her */
+  .route { position: relative; height: 46px; margin-top: 8px; }
+  .plane { position: absolute; bottom: 0; font-size: 2rem; line-height: 1; transform: translateX(-50%); }
+  .ends {
+    display: flex;
+    justify-content: space-between;
+    margin: -12px 0 6px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 14px;
+    margin: 18px 0 22px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--rose) var(--fill, 0%), #ffd3df var(--fill, 0%));
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23e11d62' d='M12 21s-7.5-4.6-9.6-9.3C.9 8.2 3 4.5 6.6 4.5c2 0 3.6 1 5.4 3 1.8-2 3.4-3 5.4-3 3.6 0 5.7 3.7 4.2 7.2C19.500 16.4 12 21 12 21z'/%3E%3C/svg%3E") center / 62% no-repeat;
+    box-shadow: 0 4px 12px rgba(168, 15, 71, 0.4);
+    cursor: grab;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 38px; height: 38px;
+    border: 0;
+    border-radius: 50%;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23e11d62' d='M12 21s-7.5-4.6-9.6-9.3C.9 8.2 3 4.5 6.6 4.5c2 0 3.6 1 5.4 3 1.8-2 3.4-3 5.4-3 3.6 0 5.7 3.7 4.2 7.2C19.500 16.4 12 21 12 21z'/%3E%3C/svg%3E") center / 62% no-repeat;
+    box-shadow: 0 4px 12px rgba(168, 15, 71, 0.4);
+    cursor: grab;
+  }
+
+  .pass {
+    margin-top: 16px;
+    border-radius: 18px;
+    overflow: hidden;
+    text-align: left;
+    background: #fff;
+    box-shadow: 0 12px 26px -16px rgba(168, 15, 71, 0.55), inset 0 0 0 2px #ffd3df;
+    animation: pop 0.45s both;
+  }
+  .pass-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 16px;
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, var(--rose-soft), var(--rose));
+  }
+  .pass-body { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; padding: 14px 16px 16px; }
+  .pass-body small {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .pass-body b { font-size: 1.02rem; color: var(--ink); }
+
+  /* charge the hug */
+  .hug {
+    display: grid;
+    place-items: center;
+    width: 150px;
+    height: 150px;
+    margin: 12px auto 14px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 3.6rem;
+    line-height: 1;
+    background:
+      radial-gradient(closest-side, #fff 80%, transparent 82%),
+      conic-gradient(var(--rose) var(--p, 0%), #ffd3df 0);
+    box-shadow: 0 14px 28px -14px rgba(168, 15, 71, 0.6);
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: none;
+  }
+
+  /* scratch card */
+  .ticket {
+    position: relative;
+    margin: 6px 0 4px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--cream);
+    box-shadow: inset 0 0 0 2px #ffd3df;
+  }
+  .prize { display: grid; gap: 8px; padding: 22px 16px; font-weight: 800; color: var(--ink); }
+  .prize-title { font-family: "Dancing Script", cursive; font-size: 1.7rem; color: var(--rose); }
+  .cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: grab;
+    transition: opacity 0.45s;
+  }
+  .cover.gone { opacity: 0; pointer-events: none; }
+
+  /* ---------- the big question ---------- */
+  .big-answers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 120px;
+    margin-top: 16px;
+  }
+  .btn.yes { transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.4); }
+  .btn.runaway {
+    position: fixed;
+    z-index: 50;
+    margin: 0;
+    transition: left 0.28s ease, top 0.28s ease;
+    white-space: nowrap;
+  }
+
+  /* ---------- finale ---------- */
+  .letter {
+    text-align: left;
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 20px 20px 16px;
+    margin: 18px 0;
+    box-shadow: inset 0 0 0 1px #ffe0e8;
+  }
+  .letter p { color: var(--ink); font-size: 1.02rem; }
+  .letter .sign {
+    font-family: "Dancing Script", cursive;
+    font-size: 1.7rem;
+    color: var(--rose);
+    text-align: right;
+    margin: 6px 0 0;
+  }
+  .reasons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 14px 0 22px; }
+  .reason {
+    min-height: 92px;
+    padding: 10px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--rose-soft), var(--rose));
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.6rem;
+    transition: transform 0.2s, background 0.3s;
+  }
+  .reason:hover { transform: translateY(-2px); }
+  .reason.open {
+    background: #fff;
+    color: var(--ink);
+    font-size: 0.93rem;
+    line-height: 1.35;
+    box-shadow: inset 0 0 0 2px #ffd3df;
+    animation: pop 0.35s both;
+  }
+
+  #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
+
+  @media (max-width: 360px) {
+    .card { padding: 26px 18px 22px; border-radius: 24px; }
+    .reasons { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .sky { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sky" id="sky" aria-hidden="true"></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<main>
+  <section class="card" id="card" aria-live="polite"></section>
+</main>
+
+<script>
+/* =====================================================================
+   ✏️  PERSONALISE EVERYTHING HERE: names, games, letter, reasons.
+   ===================================================================== */
+const CONFIG = {
+  herName: "Maria",
+  yourName: "Your Taha",
+
+  // Paste your Web3Forms access key here to get her answers by email.
+  // Leave it empty and nothing is sent.
+  web3formsKey: "",
+
+  intro: {
+    title: "Salam hbibti…",
+    text: "It's been exactly one month since I last saw you in person. I can't be next to you just yet, so I made you this instead. A little something to hold on to until I'm there.",
+    button: "Tap the envelope 💌"
+  },
+
+  // The steps she goes through, in order. Change any of the text freely.
+  //   "pair"   – a question with two or three answers, each with its own reply.
+  //   "count"  – she taps to count something up; `min` is the fewest you'll accept.
+  //   "flight" – she drags the plane from you to her; `pass` is the boarding pass shown on landing.
+  // Also available: "choice", "rigged", "shrink", "catch", "hug", "scratch".
+  games: [
+    {
+      type: "pair",
+      emoji: "🌹",
+      title: "Do you know what the best part of my day is?",
+      options: [
+        { text: "Tell me",          reply: "The moment I hear your voice. Even one minute of it changes my whole day." },
+        { text: "I think I know…",  reply: "Then you already know it's you. It has been since the day we met." }
+      ]
+    },
+    {
+      type: "count",
+      emoji: "😘",
+      title: "How many kisses do I owe you when we meet?",
+      text: "Tap to add them up.",
+      icon: "💋",
+      min: 15,
+      button: "That's enough",
+      tooFew: ["Only that many? Keep going.", "Not even close…", "More! I have a whole month to make up for."],
+      reply: "{n}? Deal. I'll add a few extra, to be safe."
+    },
+    {
+      type: "flight",
+      emoji: "✈️",
+      title: "At the end of this month, I'm on my way to you",
+      text: "Drag the plane and bring me to you.",
+      from: "Taha",
+      to: "Maria",
+      labels: ["Bags packed 🧳", "Taking off!", "Above the clouds, thinking of you ☁️", "Almost there…", "Landed! 🛬"],
+      pass: {
+        head: ["Boarding pass", "✈️ To my love"],
+        fields: [
+          ["Passenger", "Taha"],
+          ["Destination", "Maria"],
+          ["Departure", "End of this month"],
+          ["Seat", "Right next to you"]
+        ]
+      },
+      done: "One month apart ends the second I see you. Every kilometre of this trip is worth it."
+    },
+    {
+      type: "pair",
+      emoji: "🤍",
+      title: "When I walk out of arrivals, what do I get first?",
+      options: [
+        { text: "The longest hug",  reply: "Then hold on tight, because I'm not letting go first." },
+        { text: "A kiss",           reply: "The first of many. I've been counting, remember?" },
+        { text: "Both, obviously",  reply: "The right answer. Both it is, and then both again." }
+      ]
+    },
+    {
+      type: "pair",
+      emoji: "💃",
+      title: "Will you dance with me in the kitchen, even if I step on your toes?",
+      options: [
+        { text: "Yes, toes and all",            reply: "Then I'll pick the song, and you bring that laugh." },
+        { text: "Only if you step on my toes",  reply: "Then you're in luck, because I definitely will. 😄" }
+      ]
+    }
+  ],
+
+  bigQuestion: {
+    emoji: "💍",
+    title: "One last thing, and it's important…",
+    question: "Can I kiss you at the airport in front of my parents?",
+    yes: "Yes! 💖",
+    no: "No",
+    noTexts: ["Are you sure?", "Really sure?", "Think again 🥺", "Nice try!", "Can't catch me 😜", "Wrong button!", "Pretty please?", "Just say yes 💕"],
+    giveUp: "Okay fine, YES! 💖"
+  },
+
+  finale: {
+    title: "Yaaay! 🎉",
+    subtitle: "The most beautiful yes I've ever heard. You and me, always.",
+    letter: [
+      "Maria, thank you for being my best friend, my favourite person, and my home.",
+      "Every ordinary day with you is my favourite kind of day. I'd choose you again, in every lifetime, without thinking twice.",
+      "I love you, more than yesterday, less than tomorrow."
+    ],
+    reasonsTitle: "Four things I love about us 👇",
+    reasons: [
+      "We can be silly and serious in the same hour",
+      "We always find our way back to laughing",
+      "We make a wonderful team",
+      "The best part of our story is still ahead"
+    ],
+    replay: "Play again ↺"
+  }
+};
+/* ===================================================================== */
+
+const card = document.getElementById("card");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- her answers, emailed at the end ---------- */
+let answers = [];
+
+function record(question, answer) {
+  answers.push({ question, answer });
+}
+
+function sendAnswers() {
+  if (!CONFIG.web3formsKey || !answers.length) return;
+  const message = answers.map(a => `${a.question}\n→ ${a.answer}`).join("\n\n");
+  fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      access_key: CONFIG.web3formsKey,
+      subject: `${CONFIG.herName} answered your website 💌`,
+      from_name: "Website for " + CONFIG.herName,
+      message
+    }),
+    keepalive: true
+  }).catch(() => {}); // never show her an error; the page works without it
+}
+
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
+}
+
+function show(build) {
+  document.querySelectorAll(".runaway").forEach(n => n.remove());
+  card.classList.remove("in");
+  card.replaceChildren();
+  build(card);
+  void card.offsetWidth; // restart the entrance animation
+  card.classList.add("in");
+  window.scrollTo({ top: 0 });
+}
+
+/* ---------- background hearts ---------- */
+(function fillSky() {
+  const sky = document.getElementById("sky");
+  const icons = ["💗", "💕", "🌸", "💖", "✨", "🤍"];
+  for (let i = 0; i < 16; i++) {
+    const s = el("span", "", icons[i % icons.length]);
+    s.style.left = Math.random() * 100 + "%";
+    s.style.fontSize = 14 + Math.random() * 22 + "px";
+    s.style.animationDuration = 10 + Math.random() * 12 + "s";
+    s.style.animationDelay = -Math.random() * 20 + "s";
+    s.style.setProperty("--drift", (Math.random() * 120 - 60) + "px");
+    s.style.setProperty("--spin", (Math.random() * 90 - 45) + "deg");
+    sky.appendChild(s);
+  }
+})();
+
+/* ---------- screens ---------- */
+function intro() {
+  answers = [];
+  show(c => {
+    const env = el("button", "envelope");
+    env.setAttribute("aria-label", "Open the envelope");
+    env.appendChild(el("span", "seal", "💌"));
+    const btn = el("button", "btn", CONFIG.intro.button);
+
+    const open = () => {
+      env.classList.add("open");
+      env.disabled = btn.disabled = true;
+      setTimeout(() => game(0), reduceMotion ? 0 : 650);
+    };
+    env.addEventListener("click", open);
+    btn.addEventListener("click", open);
+
+    c.append(env, el("h1", "", CONFIG.intro.title), el("p", "", CONFIG.intro.text), btn);
+  });
+}
+
+function progress(index) {
+  const row = el("div", "progress");
+  row.setAttribute("aria-label", `Step ${index + 1} of ${CONFIG.games.length}`);
+  CONFIG.games.forEach((_, i) => row.appendChild(el("span", i <= index ? "done" : "", "♥")));
+  return row;
+}
+
+const GAMES = { rigged: riggedGame, shrink: shrinkGame, count: countGame, pair: pairGame, choice: choiceGame, catch: catchGame, flight: flightGame, hug: hugGame, scratch: scratchGame };
+
+function game(index) {
+  const g = CONFIG.games[index];
+  if (!g) return bigQuestion();
+  const next = () => game(index + 1);
+
+  show(c => {
+    c.append(progress(index), el("span", "emoji bounce", g.emoji), el("h2", "", g.title));
+    if (g.text) c.appendChild(el("p", "", g.text));
+    GAMES[g.type](c, g, next);
+  });
+}
+
+function choiceGame(c, g, next) {
+  const list = el("div", "options");
+  g.options.forEach(opt => {
+    const b = el("button", "option", opt.text);
+    b.addEventListener("click", () => {
+      list.querySelectorAll("button").forEach(x => (x.disabled = true));
+      b.classList.add("picked");
+      record(g.title, opt.text);
+      finish(c, opt.reply, next);
+    });
+    list.appendChild(b);
+  });
+  c.appendChild(list);
+}
+
+function finish(c, text, next) {
+  const nextBtn = el("button", "btn", "Next →");
+  nextBtn.addEventListener("click", next);
+  c.append(el("div", "reply", text), nextBtn);
+  nextBtn.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
+}
+
+function riggedGame(c, g, next) {
+  const row = el("div", "pair");
+  const lose = el("button", "btn ghost", g.loser);
+  const win = el("button", "btn ghost", g.winner);
+  row.append(lose, win);
+  c.appendChild(row);
+
+  const pick = (button, reply) => {
+    lose.disabled = win.disabled = true;
+    button.classList.remove("ghost");
+    button.classList.add("picked");
+    finish(c, reply, next);
+  };
+  win.addEventListener("click", () => pick(win, g.winReply));
+  lose.addEventListener("click", () => {
+    // swap the labels under her finger, so she "picked" the winner
+    lose.textContent = g.winner;
+    win.textContent = g.loser;
+    row.classList.add("shake");
+    pick(lose, g.swapReply);
+  });
+}
+
+function shrinkGame(c, g, next) {
+  const row = el("div", "pair tall");
+  const yes = el("button", "btn", g.yes);
+  const no = el("button", "btn ghost", g.no);
+  row.append(yes, no);
+  c.appendChild(row);
+  let tries = 0;
+
+  no.addEventListener("click", () => {
+    if (tries >= g.noTexts.length) return no.remove();
+    no.textContent = g.noTexts[tries];
+    tries++;
+    no.style.transform = `scale(${Math.max(0.35, 1 - tries * 0.16)})`;
+    yes.style.transform = `scale(${Math.min(1.5, 1 + tries * 0.12)})`;
+  });
+  yes.addEventListener("click", () => {
+    no.remove();
+    yes.disabled = true;
+    yes.classList.add("picked");
+    yes.style.transform = "";
+    finish(c, g.reply, next);
+  });
+}
+
+function countGame(c, g, next) {
+  const number = el("div", "count", "0");
+  const tap = el("button", "hug", g.icon);
+  tap.setAttribute("aria-label", "Add one");
+  const label = el("div", "game-label");
+  const enough = el("button", "btn ghost", g.button);
+  c.append(number, tap, label, enough);
+  let total = 0;
+  let nags = 0;
+
+  tap.addEventListener("click", () => {
+    total++;
+    number.textContent = total;
+    tap.style.setProperty("--p", Math.min(100, (total / g.min) * 100) + "%");
+  });
+  enough.addEventListener("click", () => {
+    if (total < g.min) {
+      label.textContent = g.tooFew[nags++ % g.tooFew.length];
+      return;
+    }
+    tap.remove();
+    label.textContent = "";
+    enough.remove();
+    record(g.title, String(total));
+    finish(c, g.reply.replace("{n}", total), next);
+  });
+}
+
+function pairGame(c, g, next) {
+  const row = el("div", "pair");
+  g.options.forEach(opt => {
+    const b = el("button", "btn ghost", opt.text);
+    b.addEventListener("click", () => {
+      row.querySelectorAll("button").forEach(x => (x.disabled = true));
+      b.classList.remove("ghost");
+      b.classList.add("picked");
+      record(g.title, opt.text);
+      finish(c, opt.reply, next);
+    });
+    row.appendChild(b);
+  });
+  c.appendChild(row);
+}
+
+function catchGame(c, g, next) {
+  const arena = el("div", "arena");
+  const label = el("div", "game-label", `💋 0 / ${g.notes.length}`);
+  c.append(arena, label);
+  let caught = 0;
+
+  const grab = kiss => {
+    if (!kiss.isConnected) return;
+    kiss.remove();
+    label.textContent = `💋 ${caught + 1} / ${g.notes.length} · ${g.notes[caught]}`;
+    caught++;
+    if (caught < g.notes.length) return;
+    clearInterval(timer);
+    arena.replaceChildren();
+    arena.classList.add("done");
+    arena.textContent = "💖";
+    finish(c, g.done, next);
+  };
+
+  const spawn = () => {
+    if (!arena.isConnected) return clearInterval(timer);
+    if (arena.childElementCount >= 6) return;
+    const kiss = el("button", "kiss", "💋");
+    kiss.setAttribute("aria-label", "Catch this kiss");
+    kiss.style.left = Math.random() * Math.max(0, arena.clientWidth - 60) + "px";
+    kiss.style.setProperty("--dur", 3 + Math.random() * 2 + "s");
+    if (reduceMotion) kiss.style.bottom = 10 + Math.random() * 180 + "px"; // no float animation, so place it in view
+    kiss.addEventListener("animationend", () => kiss.remove());
+    kiss.addEventListener("pointerdown", () => grab(kiss));
+    kiss.addEventListener("click", () => grab(kiss));
+    arena.appendChild(kiss);
+  };
+
+  const timer = setInterval(spawn, 600);
+  spawn();
+}
+
+function boardingPass(pass) {
+  const card = el("div", "pass");
+  const head = el("div", "pass-head");
+  pass.head.forEach(text => head.appendChild(el("span", "", text)));
+  const body = el("div", "pass-body");
+  pass.fields.forEach(([name, value]) => {
+    const field = el("div");
+    field.append(el("small", "", name), el("b", "", value));
+    body.appendChild(field);
+  });
+  card.append(head, body);
+  return card;
+}
+
+function flightGame(c, g, next) {
+  const route = el("div", "route");
+  const plane = el("span", "plane", "✈️");
+  route.appendChild(plane);
+
+  const range = el("input");
+  range.type = "range";
+  range.min = 0;
+  range.max = 100;
+  range.value = 0;
+  range.setAttribute("aria-label", g.title);
+
+  const ends = el("div", "ends");
+  ends.append(el("span", "", `📍 ${g.from}`), el("span", "", `${g.to} 📍`));
+  const label = el("div", "game-label");
+  let landed = false;
+
+  const move = () => {
+    const v = Number(range.value);
+    range.style.setProperty("--fill", v + "%");
+    plane.style.left = `calc(19px + (100% - 38px) * ${v / 100})`; // follow the 38px thumb
+    label.textContent = g.labels[Math.min(g.labels.length - 1, Math.floor((v / 100) * (g.labels.length - 1) + 0.0001))];
+    if (v === 100 && !landed) {
+      landed = true;
+      range.disabled = true;
+      plane.textContent = "💖";
+      if (g.pass) c.appendChild(boardingPass(g.pass));
+      finish(c, g.done, next);
+    }
+  };
+  range.addEventListener("input", move);
+  c.append(route, range, ends, label);
+  move();
+}
+
+function hugGame(c, g, next) {
+  const heart = el("button", "hug", "🤍");
+  heart.setAttribute("aria-label", "Press and hold to charge the hug");
+  const label = el("div", "game-label", g.teases[0]);
+  c.append(heart, label);
+
+  let level = 0; // 0 → 1
+  let holding = false;
+  let running = false;
+  let done = false;
+  let last = 0;
+
+  const frame = now => {
+    const dt = now - last;
+    last = now;
+    level = Math.max(0, Math.min(1, level + (holding ? dt / g.holdMs : -dt / 1200)));
+    heart.style.setProperty("--p", level * 100 + "%");
+    heart.style.transform = `scale(${1 + level * 0.2})`;
+
+    if (level >= 1) {
+      done = true;
+      running = false;
+      heart.textContent = "💖";
+      label.textContent = g.full;
+      return finish(c, g.done, next);
+    }
+    label.textContent = g.teases[Math.min(g.teases.length - 1, Math.floor(level * g.teases.length))];
+    if ((level > 0 || holding) && heart.isConnected) requestAnimationFrame(frame);
+    else running = false;
+  };
+
+  const press = () => {
+    if (done) return;
+    holding = true;
+    if (running) return;
+    running = true;
+    last = performance.now();
+    requestAnimationFrame(frame);
+  };
+  const release = () => { holding = false; };
+
+  heart.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    heart.setPointerCapture(e.pointerId);
+    press();
+  });
+  heart.addEventListener("pointerup", release);
+  heart.addEventListener("pointercancel", release);
+  heart.addEventListener("contextmenu", e => e.preventDefault()); // long-press menu on phones
+  heart.addEventListener("keydown", e => { if ((e.key === " " || e.key === "Enter") && !e.repeat) press(); });
+  heart.addEventListener("keyup", release);
+  heart.addEventListener("blur", release);
+}
+
+function scratchGame(c, g, next) {
+  const ticket = el("div", "ticket");
+  const prize = el("div", "prize");
+  prize.appendChild(el("div", "prize-title", g.prizeTitle));
+  g.prize.forEach(line => prize.appendChild(el("div", "", line)));
+  const cover = el("canvas", "cover");
+  ticket.append(prize, cover);
+  c.appendChild(ticket);
+
+  const box = ticket.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cover.width = Math.round((box.width || 300) * dpr);
+  cover.height = Math.round((box.height || 170) * dpr);
+
+  const pen = cover.getContext("2d");
+  const paint = pen.createLinearGradient(0, 0, cover.width, cover.height);
+  paint.addColorStop(0, "#ff8fb1");
+  paint.addColorStop(1, "#e11d62");
+  pen.fillStyle = paint;
+  pen.fillRect(0, 0, cover.width, cover.height);
+  pen.fillStyle = "#fff";
+  pen.font = `800 ${18 * dpr}px Nunito, system-ui, sans-serif`;
+  pen.textAlign = "center";
+  pen.textBaseline = "middle";
+  pen.fillText(g.cover, cover.width / 2, cover.height / 2);
+
+  pen.globalCompositeOperation = "destination-out";
+  pen.lineCap = pen.lineJoin = "round";
+  pen.lineWidth = 40 * dpr;
+
+  let drawing = false;
+  let prev = null;
+  let moves = 0;
+  let revealed = false;
+
+  const scratch = e => {
+    const r = cover.getBoundingClientRect();
+    const x = (e.clientX - r.left) * cover.width / r.width;
+    const y = (e.clientY - r.top) * cover.height / r.height;
+    pen.beginPath();
+    pen.moveTo(prev ? prev[0] : x, prev ? prev[1] : y);
+    pen.lineTo(x + 0.01, y);
+    pen.stroke();
+    prev = [x, y];
+  };
+
+  const check = () => {
+    if (revealed) return;
+    const pixels = pen.getImageData(0, 0, cover.width, cover.height).data;
+    let cleared = 0;
+    let total = 0;
+    for (let i = 3; i < pixels.length; i += 4 * 17) { // sample every 17th pixel's alpha
+      total++;
+      if (pixels[i] === 0) cleared++;
+    }
+    if (cleared / total < 0.45) return;
+    revealed = true;
+    cover.classList.add("gone");
+    setTimeout(() => cover.remove(), 500);
+    finish(c, g.done, next);
+  };
+
+  cover.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    cover.setPointerCapture(e.pointerId);
+    drawing = true;
+    prev = null;
+    scratch(e);
+  });
+  cover.addEventListener("pointermove", e => {
+    if (!drawing) return;
+    scratch(e);
+    if (++moves % 12 === 0) check();
+  });
+  const lift = () => {
+    if (!drawing) return;
+    drawing = false;
+    check();
+  };
+  cover.addEventListener("pointerup", lift);
+  cover.addEventListener("pointercancel", lift);
+}
+
+function bigQuestion() {
+  const b = CONFIG.bigQuestion;
+  show(c => {
+    const yes = el("button", "btn yes", b.yes);
+    const no = el("button", "btn ghost", b.no);
+    const row = el("div", "big-answers");
+    row.append(yes, no);
+
+    let tries = 0;
+    let lastDodge = 0;
+    let gaveUp = false;
+
+    const dodge = () => {
+      lastDodge = Date.now();
+      if (tries >= b.noTexts.length) {
+        gaveUp = true;
+        no.textContent = b.giveUp;
+        no.classList.remove("ghost");
+      } else {
+        no.textContent = b.noTexts[tries];
+      }
+      tries++;
+      yes.style.transform = `scale(${Math.min(1 + tries * 0.08, 1.5)})`;
+
+      // lift the button out of the card so it can roam the whole screen
+      if (!no.classList.contains("runaway")) {
+        const r = no.getBoundingClientRect();
+        document.body.appendChild(no);
+        no.classList.add("runaway");
+        no.style.left = r.left + "px";
+        no.style.top = r.top + "px";
+        void no.offsetWidth;
+      }
+
+      const pad = 12;
+      const maxX = Math.max(pad, window.innerWidth - no.offsetWidth - pad);
+      const maxY = Math.max(pad, window.innerHeight - no.offsetHeight - pad);
+      const yesBox = yes.getBoundingClientRect();
+      let x, y, attempts = 0;
+      do {
+        x = pad + Math.random() * (maxX - pad);
+        y = pad + Math.random() * (maxY - pad);
+        attempts++;
+      } while (
+        attempts < 20 &&
+        x < yesBox.right + 10 && x + no.offsetWidth > yesBox.left - 10 &&
+        y < yesBox.bottom + 10 && y + no.offsetHeight > yesBox.top - 10
+      );
+      no.style.left = x + "px";
+      no.style.top = y + "px";
+    };
+
+    no.addEventListener("pointerenter", e => { if (e.pointerType === "mouse" && !gaveUp) dodge(); });
+    no.addEventListener("pointerdown", e => {
+      if (gaveUp) return;
+      e.preventDefault();
+      dodge();
+    });
+    no.addEventListener("click", () => {
+      if (Date.now() - lastDodge < 450) return; // same tap that just made it jump
+      if (gaveUp) accept();
+      else dodge();
+    });
+    const accept = () => {
+      record(b.question, tries ? `Yes (after trying "No" ${tries} times)` : "Yes, straight away");
+      finale();
+    };
+    yes.addEventListener("click", accept);
+
+    c.append(el("span", "emoji bounce", b.emoji), el("p", "", b.title), el("h1", "", b.question), row);
+  });
+}
+
+function finale() {
+  const f = CONFIG.finale;
+  show(c => {
+    c.append(el("span", "emoji bounce", "💖"), el("h1", "", f.title), el("p", "", f.subtitle));
+
+    const letter = el("div", "letter");
+    f.letter.forEach(line => letter.appendChild(el("p", "", line)));
+    letter.appendChild(el("p", "sign", CONFIG.yourName));
+    c.appendChild(letter);
+
+    c.appendChild(el("p", "", f.reasonsTitle));
+    const grid = el("div", "reasons");
+    f.reasons.forEach(text => {
+      const r = el("button", "reason", "💖");
+      r.addEventListener("click", () => {
+        if (r.classList.contains("open")) return;
+        r.classList.add("open");
+        r.textContent = text;
+      });
+      grid.appendChild(r);
+    });
+    c.appendChild(grid);
+
+    const again = el("button", "btn ghost", f.replay);
+    again.addEventListener("click", intro);
+    c.appendChild(again);
+  });
+  celebrate();
+  sendAnswers();
+}
+
+/* ---------- heart confetti ---------- */
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+let pieces = [];
+let raf = null;
+
+function sizeCanvas() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+window.addEventListener("resize", sizeCanvas);
+sizeCanvas();
+
+function celebrate() {
+  if (reduceMotion) return;
+  const icons = ["💖", "💕", "💗", "🌸", "✨", "💘"];
+  const count = window.innerWidth < 500 ? 70 : 120;
+  for (let i = 0; i < count; i++) {
+    pieces.push({
+      icon: icons[i % icons.length],
+      x: Math.random() * window.innerWidth,
+      y: -20 - Math.random() * window.innerHeight * 0.8,
+      size: 16 + Math.random() * 20,
+      vy: 2 + Math.random() * 3.5,
+      vx: Math.random() * 2 - 1,
+      rot: Math.random() * Math.PI * 2,
+      vr: Math.random() * 0.08 - 0.04
+    });
+  }
+  if (!raf) raf = requestAnimationFrame(tick);
+}
+
+function tick() {
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  pieces = pieces.filter(p => p.y < window.innerHeight + 40);
+  for (const p of pieces) {
+    p.x += p.vx + Math.sin(p.y / 40) * 0.6;
+    p.y += p.vy;
+    p.rot += p.vr;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.font = p.size + "px serif";
+    ctx.textAlign = "center";
+    ctx.fillText(p.icon, 0, 0);
+    ctx.restore();
+  }
+  raf = pieces.length ? requestAnimationFrame(tick) : null;
+}
+
+intro();
+</script>
+</body>
+</html>
